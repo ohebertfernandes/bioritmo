@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bio Ritmo Piracicaba | Academia Premium</title>
+    <meta name="description" content="Um Clube de Bem-Estar premium em Piracicaba, criado para quem exige conforto, privacidade e resultados reais.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Inter (clean UI) e Work Sans (Display) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        premium: {
+                            black: '#111111',
+                            dark: '#1a1a1a',
+                            gray: '#1d1d1f',
+                            light: '#f5f5f7',
+                            white: '#ffffff',
+                            accent: '#e5802c'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Work Sans', 'sans-serif'],
+                    },
+                    letterSpacing: {
+                        tightest: '-.04em',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Swiper Customizations */
+        .swiper-button-next, .swiper-button-prev {
+            color: #111111 !important;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            width: 48px !important;
+            height: 48px !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @media (min-width: 768px) {
+            .swiper-button-next, .swiper-button-prev {
+                width: 56px !important;
+                height: 56px !important;
+            }
+        }
+        .swiper-button-next:hover, .swiper-button-prev:hover {
+            background: #ffffff;
+            transform: scale(1.08);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        .swiper-button-next:after, .swiper-button-prev:after {
+            font-size: 16px !important;
+            font-weight: 800;
+        }
+        @media (min-width: 768px) {
+            .swiper-button-next:after, .swiper-button-prev:after {
+                font-size: 18px !important;
+            }
+        }
+
+        /* Parallax Studio Cards */
+        .studio-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            height: 380px; /* Mobile height */
+        }
+        @media (min-width: 768px) {
+            .studio-card {
+                border-radius: 2.5rem;
+                height: 540px; /* Desktop height */
+            }
+        }
+        .studio-bg {
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .studio-front {
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), filter 1s;
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.4));
+        }
+        .studio-card:hover .studio-bg {
+            transform: scale(1.06);
+        }
+        .studio-card:hover .studio-front {
+            transform: translate(-50%, -20px) scale(1.08);
+            filter: drop-shadow(0 35px 45px rgba(0,0,0,0.6));
+        }
+        
+        /* 3D Flip Card Styles (Treinos) */
+        .flip-card {
+            background-color: transparent;
+            perspective: 1200px;
+            height: 360px; /* Mobile height */
+            cursor: pointer;
+            border-radius: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .flip-card {
+                height: 460px; /* Desktop height */
+                border-radius: 2.5rem;
+            }
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            border-radius: inherit;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        }
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: inherit;
+            overflow: hidden;
+        }
+        .flip-card-front {
+            background-color: #e5e5e5;
+        }
+        .flip-card-back {
+            background-color: #111;
+            color: white;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        @media (min-width: 768px) {
+            .flip-card-back {
+                padding: 3rem;
+            }
+        }
+
+        /* Custom Radio Buttons */
+        .goal-radio:checked + label {
+            background-color: #111111;
+            color: white;
+            border-color: #111111;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        /* Select Reset */
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            text-indent: 1px;
+            text-overflow: '';
+        }
+
+        /* Hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Scroll Reveal Lines */
+        .scroll-reveal-line {
+            will-change: transform;
+        }
+
+        /* 3D Tilt Effect */
+        .tilt-card {
+            will-change: transform;
+            transform-style: preserve-3d;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden selection:bg-premium-dark selection:text-white">
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 bg-premium-black/70 backdrop-blur-xl border-b border-white/10 transition-all duration-300">
+        <div class="max-w-[1400px] mx-auto px-6">
+            <div class="flex justify-between items-center h-20 md:h-24">
+                <!-- Logo Oficial -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer">
+                    <img src="https://cdn.prod.website-files.com/65412a7b40108e4e6159d5a3/6929b029bd38649ed87ce83a_logo.png" alt="Bio Ritmo" class="h-6 md:h-7 object-contain invert brightness-0 transition-transform duration-300 hover:scale-105">
+                </div>
+                <div class="hidden md:flex">
+                    <a href="#formulario" class="bg-white text-premium-black px-10 py-4 rounded-full font-bold text-[11px] uppercase tracking-[0.2em] hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300">
+                        Solicitar Convite VIP
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Estrutura de Hero (Fixo no fundo para criar o efeito Parallax seguro) -->
+    <div class="fixed top-0 left-0 w-full h-[100svh] bg-premium-black z-0">
+        <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity scale-105">
+            <source src="https://assets-bio-digital-cms.bioritmo.com.br/15s_HOR_BIO_IBIRA_PACAEMBU_V1_Trim_c85f59eeb3.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-gradient-to-r from-black/95 via-black/60 to-transparent"></div>
+
+        <!-- 1ª Seção - Hero Content -->
+        <section class="absolute inset-0 flex flex-col justify-center items-center text-center">
+            <!-- Container centralizado na página, mas o texto perfeitamente alinhado à esquerda -->
+            <div class="px-6 w-full max-w-[1200px] flex flex-col items-start text-left mx-auto" data-aos="fade-up" data-aos-duration="1000">
+                <!-- Ajuste no font-size do Mobile para evitar qualquer possibilidade de quebra indevida -->
+                <h1 class="text-white font-display font-black text-[9vw] max-[380px]:text-[8vw] sm:text-[7vw] md:text-5xl lg:text-6xl xl:text-[4.5rem] leading-[1.1] tracking-tightest mb-4 md:mb-6 uppercase w-full">
+                    Excelência que se<br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-white whitespace-nowrap">adapta ao seu tempo.</span>
+                </h1>
+                <p class="text-gray-300 text-sm sm:text-base md:text-xl lg:text-2xl font-light mb-8 md:mb-10 max-w-3xl leading-relaxed" data-aos="fade-up" data-aos-delay="200">
+                    Um Clube de Bem-Estar premium em Piracicaba, criado para quem exige conforto, privacidade e resultados reais!
+                    <span class="block mt-2 md:mt-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-300 to-white font-bold tracking-wide uppercase">SEM REVEZAR, SEM EXCESSO, SEM IMPROVISO.</span>
+                </p>
+                <div data-aos="fade-up" data-aos-delay="400" class="w-full md:w-auto">
+                    <a href="#formulario" class="inline-block w-full md:w-auto text-center bg-[#1a1a1a] text-white border border-white/20 font-bold uppercase tracking-widest text-xs px-8 py-4 md:px-12 md:py-5 rounded-full hover:bg-white hover:text-black transition-all duration-500 shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                        Solicitar Convite VIP
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Spacer Transparente para permitir o Scroll passar pelo Hero Fixo -->
+    <div class="w-full h-[100svh] relative z-0 pointer-events-none"></div>
+
+    <!-- Container Master com fundo sólido que passa POR CIMA do Hero -->
+    <div class="relative z-10 bg-[#f5f5f7] rounded-t-[2rem] md:rounded-t-[3rem] shadow-[0_-20px_50px_rgba(0,0,0,0.5)] pb-8">
+        
+        <!-- 2ª Seção - Headline Animada (Reveal por Scroll) -->
+        <!-- Espaçamento reduzido no mobile para transição dinâmica -->
+        <section class="pt-12 md:pt-28 pb-6 md:pb-14 px-4 md:px-6 overflow-hidden">
+            <div class="max-w-[1400px] mx-auto flex flex-col items-center justify-center text-center min-h-[25vh] md:min-h-[40vh]">
+                <h2 class="font-display font-black tracking-tightest leading-[1.15] w-full flex flex-col items-center gap-1 md:gap-2">
+                    <span class="block overflow-hidden py-1 px-2 -mx-2"><span class="block text-gray-400 whitespace-nowrap scroll-reveal-line text-[4.5vw] max-[380px]:text-[4vw] md:text-4xl lg:text-5xl xl:text-6xl" style="transform: translateY(100%);">Você não precisa de mais uma academia.</span></span>
+                    <span class="block overflow-hidden py-1 px-2 -mx-2"><span class="block text-gray-500 whitespace-nowrap scroll-reveal-line text-[5vw] max-[380px]:text-[4.5vw] md:text-5xl lg:text-6xl xl:text-[4.5rem]" style="transform: translateY(100%);">Precisa de um ambiente que</span></span>
+                    <span class="block overflow-hidden py-1 px-2 -mx-2"><span class="block text-premium-black whitespace-nowrap scroll-reveal-line text-[5vw] max-[380px]:text-[4.5vw] md:text-5xl lg:text-6xl xl:text-[4.5rem]" style="transform: translateY(100%);">acompanhe o seu ritmo.</span></span>
+                </h2>
+                
+                <a href="#studios" class="mt-8 md:mt-16 text-premium-black hover:text-gray-500 font-bold text-[10px] md:text-sm tracking-[0.2em] uppercase flex items-center justify-center gap-2 md:gap-3 transition-colors" data-aos="fade-in" data-aos-delay="400" data-aos-duration="1000">
+                    Conhecer a experiência <i data-lucide="arrow-down" class="w-4 h-4 md:w-5 md:h-5"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- 2.5 Seção - Blocos Minimalistas -->
+        <section class="pb-10 md:pb-20 px-6 text-premium-gray">
+            <div class="max-w-[1000px] mx-auto py-4 md:py-8">
+                <!-- Gaps reduzidos no mobile -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-16 lg:gap-20">
+                    <!-- Bloco 1 -->
+                    <div class="flex flex-col items-center text-center group" data-aos="fade-up" data-aos-delay="100">
+                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full bg-white shadow-md md:shadow-xl flex items-center justify-center mb-3 md:mb-8 group-hover:-translate-y-4 group-hover:shadow-2xl transition-all duration-700 ease-out">
+                            <i data-lucide="zap" class="w-6 h-6 md:w-12 md:h-12 text-premium-black" stroke-width="1.5"></i>
+                        </div>
+                        <h3 class="text-lg md:text-2xl lg:text-3xl font-display font-bold tracking-tight">Infraestrutura<br>de Elite</h3>
+                    </div>
+                    <!-- Bloco 2 -->
+                    <div class="flex flex-col items-center text-center group" data-aos="fade-up" data-aos-delay="200">
+                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full bg-white shadow-md md:shadow-xl flex items-center justify-center mb-3 md:mb-8 group-hover:-translate-y-4 group-hover:shadow-2xl transition-all duration-700 ease-out">
+                            <i data-lucide="timer" class="w-6 h-6 md:w-12 md:h-12 text-premium-black" stroke-width="1.5"></i>
+                        </div>
+                        <h3 class="text-lg md:text-2xl lg:text-3xl font-display font-bold tracking-tight">Otimização<br>de Tempo</h3>
+                    </div>
+                    <!-- Bloco 3 -->
+                    <div class="flex flex-col items-center text-center group" data-aos="fade-up" data-aos-delay="300">
+                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full bg-white shadow-md md:shadow-xl flex items-center justify-center mb-3 md:mb-8 group-hover:-translate-y-4 group-hover:shadow-2xl transition-all duration-700 ease-out">
+                            <i data-lucide="shield-check" class="w-6 h-6 md:w-12 md:h-12 text-premium-black" stroke-width="1.5"></i>
+                        </div>
+                        <h3 class="text-lg md:text-2xl lg:text-3xl font-display font-bold tracking-tight">Acompanhamento<br>Ativo</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3ª Seção - Studios -->
+        <section id="studios" class="py-10 md:py-24 px-4 md:px-6 bg-premium-black overflow-hidden text-white rounded-[2rem] md:rounded-[3rem] mx-2 md:mx-6 shadow-2xl mt-4 md:mt-8">
+            <div class="max-w-[1400px] mx-auto">
+                <div class="flex flex-col items-center justify-center text-center mb-8 md:mb-24" data-aos="fade-up">
+                    <div class="max-w-4xl w-full flex flex-col items-center">
+                        <h2 class="font-display font-bold text-2xl md:text-6xl lg:text-7xl tracking-tightest mb-3 md:mb-8 leading-[1.1]">
+                            <span class="block whitespace-nowrap">Tudo o que você precisa.</span>
+                            <span class="block whitespace-nowrap">No nível que você espera.</span>
+                        </h2>
+                        <p class="text-sm md:text-xl lg:text-2xl text-gray-400 font-light">
+                            Você escolhe o ritmo.<br/>
+                            <span class="font-semibold text-white">A Bio Ritmo sustenta a sua evolução.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Studios Carousel -->
+                <div class="relative" data-aos="fade-in">
+                    <div class="swiper studios-swiper !overflow-visible">
+                        <div class="swiper-wrapper">
+                            <!-- TORQ -->
+                            <div class="swiper-slide w-[85%] md:w-[480px]">
+                                <div class="studio-card group bg-premium-dark">
+                                    <img src="https://assets-bio-digital-cms.bioritmo.com.br/TORQ_d_9d70f2d964.webp" alt="TORQ Background" class="studio-bg absolute inset-0 w-full h-full object-cover opacity-50">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                                    <img src="https://assets-bio-digital-cms.bioritmo.com.br/Torq_9ca67c870c.png" alt="TORQ Front" class="studio-front absolute top-[10%] left-1/2 transform -translate-x-1/2 w-[60%] md:w-[75%] object-contain z-10">
+                                    <div class="absolute bottom-0 left-0 w-full p-6 md:p-12 z-20 text-center">
+                                        <p class="text-white font-light text-base md:text-2xl drop-shadow-md">Ciclismo imersivo com energia e foco total.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tonus Gym -->
+                            <div class="swiper-slide w-[85%] md:w-[480px]">
+                                <div class="studio-card group bg-premium-dark">
+                                    <img src="https://assets-bio-digital-cms.bioritmo.com.br/TONUS_d_f0ea1057bf.webp" alt="Tonus Background" class="studio-bg absolute inset-0 w-full h-full object-cover opacity-50">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                                    <img src="https://assets-bio-digital-cms.bioritmo.com.br/Tonus_59cb5be3ae.png" alt="Tonus Front" class="studio-front absolute top-[10%] left-1/2 transform -translate-x-1/2 w-[60%] md:w-[75%] object-contain z-10">
+                                    <div class="absolute bottom-0 left-0 w-full p-6 md:p-12 z-20 text-center">
+                                        <p class="text-white font-light text-base md:text-2xl drop-shadow-md">Musculação de alto padrão com liberdade e precisão.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Race Bootcamp -->
+                            <div class="swiper-slide w-[85%] md:w-[480px]">
+                                <div class="studio-card group bg-premium-dark">
+                                    <img src="https://naopiradesopila.com/wp-content/uploads/2018/01/bootcamp-Bio.jpg" alt="Race Background" class="studio-bg absolute inset-0 w-full h-full object-cover opacity-50">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                                    <img src="https://assets-bio-digital-cms.bioritmo.com.br/Race_c0f9c22681.png" alt="Race Front" class="studio-front absolute top-[10%] left-1/2 transform -translate-x-1/2 w-[60%] md:w-[75%] object-contain z-10">
+                                    <div class="absolute bottom-0 left-0 w-full p-6 md:p-12 z-20 text-center">
+                                        <p class="text-white font-light text-base md:text-2xl drop-shadow-md">Alta intensidade com estrutura e direcionamento.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Burn HiitZone -->
+                            <div class="swiper-slide w-[85%] md:w-[480px]">
+                                <div class="studio-card group bg-premium-dark">
+                                    <img src="https://assets-bio-digital-cms.bioritmo.com.br/BURN_fa175385e0.webp" alt="Burn Background" class="studio-bg absolute inset-0 w-full h-full object-cover opacity-50">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                                    <img src="https://assets-bio-digital-cms.bioritmo.com.br/Burn_d168e1ade5.png" alt="Burn Front" class="studio-front absolute top-[10%] left-1/2 transform -translate-x-1/2 w-[60%] md:w-[75%] object-contain z-10">
+                                    <div class="absolute bottom-0 left-0 w-full p-6 md:p-12 z-20 text-center">
+                                        <p class="text-white font-light text-base md:text-2xl drop-shadow-md">Treinos rápidos, eficientes e dinâmicos.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Vidya -->
+                            <div class="swiper-slide w-[85%] md:w-[480px]">
+                                <div class="studio-card group bg-premium-dark">
+                                    <img src="https://assets-bio-digital-cms.bioritmo.com.br/VIDYA_d_2_982d26088a.webp" alt="Vidya Background" class="studio-bg absolute inset-0 w-full h-full object-cover opacity-50">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                                    <img src="https://assets-bio-digital-cms.bioritmo.com.br/Vydia_b51eb2cdbc.png" alt="Vidya Front" class="studio-front absolute top-[10%] left-1/2 transform -translate-x-1/2 w-[60%] md:w-[75%] object-contain z-10">
+                                    <div class="absolute bottom-0 left-0 w-full p-6 md:p-12 z-20 text-center">
+                                        <p class="text-white font-light text-base md:text-2xl drop-shadow-md">Equilíbrio, mobilidade e descompressão mental.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Navigation -->
+                    <div class="swiper-button-prev hidden md:flex absolute left-[-28px] top-1/2 transform -translate-y-1/2 z-10"></div>
+                    <div class="swiper-button-next hidden md:flex absolute right-[-28px] top-1/2 transform -translate-y-1/2 z-10"></div>
+                </div>
+
+                <div class="text-center mt-10 md:mt-16 w-full" data-aos="fade-up">
+                    <a href="#formulario" class="inline-block w-full md:w-auto bg-white text-premium-black font-bold text-xs tracking-widest uppercase px-8 py-4 md:px-12 md:py-5 rounded-full hover:scale-105 transition-transform duration-300 shadow-[0_10px_40px_rgba(255,255,255,0.15)]">
+                        Quero conhecer os studios
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4ª Seção - Programas da Bio (com TABS) -->
+        <section id="programas" class="py-10 md:py-24 px-4 md:px-6 bg-[#f5f5f7] text-premium-black">
+            <div class="max-w-[1200px] mx-auto">
+                <div class="text-center mb-8 md:mb-16 flex flex-col items-center" data-aos="fade-up">
+                    <h2 class="font-display font-bold text-3xl md:text-5xl lg:text-7xl tracking-tightest mb-3 md:mb-8 text-center w-full">Conheça os Programas da Bio</h2>
+                    <p class="text-sm md:text-xl lg:text-2xl font-light text-gray-500 max-w-3xl mx-auto leading-relaxed text-center px-2">
+                        A Bio Ritmo oferece programas de treinos personalizados para ajudar você a atingir os seus objetivos.
+                    </p>
+                </div>
+
+                <!-- Tabs Header (Scrollable no mobile com Snap) -->
+                <div class="flex overflow-x-auto no-scrollbar snap-x snap-mandatory gap-2 md:gap-4 mb-8 md:mb-24 justify-start md:justify-center w-full px-2" data-aos="fade-up" data-aos-delay="100">
+                    <button class="program-tab-btn snap-center shrink-0 px-5 py-2.5 md:px-10 md:py-4 rounded-full border border-gray-300 text-gray-500 hover:border-premium-black hover:text-premium-black font-bold tracking-widest uppercase text-[10px] md:text-sm bg-white transition-all" data-target="bio-master">Bio Master</button>
+                    <button class="program-tab-btn active snap-center shrink-0 px-5 py-2.5 md:px-10 md:py-4 rounded-full border border-premium-black bg-premium-black text-white font-bold tracking-widest uppercase text-[10px] md:text-sm shadow-xl transition-all" data-target="hipertrofia">Hipertrofia</button>
+                    <button class="program-tab-btn snap-center shrink-0 px-5 py-2.5 md:px-10 md:py-4 rounded-full border border-gray-300 text-gray-500 hover:border-premium-black hover:text-premium-black font-bold tracking-widest uppercase text-[10px] md:text-sm bg-white transition-all" data-target="emagrecimento">Emagrecimento</button>
+                </div>
+
+                <!-- Tabs Content -->
+                <div class="relative min-h-[500px]">
+                    
+                    <!-- TAB 1: BIO MASTER -->
+                    <div id="bio-master" class="program-content hidden grid-cols-1 lg:grid-cols-2 gap-6 md:gap-16 lg:gap-24 items-center">
+                        <div class="h-[250px] min-[400px]:h-[300px] lg:h-[600px] rounded-[1.5rem] lg:rounded-[3rem] overflow-hidden shadow-xl relative w-full">
+                            <img src="https://assets-bio-digital-cms.bioritmo.com.br/programas_bio_master_974_453px_940ad721bf.webp" alt="Bio Master" class="w-full h-full object-cover object-center">
+                            <div class="absolute bottom-0 left-0 w-full p-6 md:p-10 bg-gradient-to-t from-black/80 to-transparent">
+                                <h3 class="font-display font-bold text-2xl md:text-4xl lg:text-5xl text-white">BIO MASTER</h3>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-base md:text-xl lg:text-2xl text-gray-500 font-light mb-6 md:mb-12 leading-relaxed">
+                                Explore um programa personalizado para atender suas necessidades individuais melhorando a qualidade de vida.
+                            </p>
+                            <div class="space-y-5 md:space-y-10">
+                                <div class="flex gap-4 md:gap-6 items-start">
+                                    <span class="w-8 h-8 md:w-12 md:h-12 rounded-full bg-white shadow-sm flex items-center justify-center font-bold text-premium-black shrink-0 text-[10px] md:text-sm">01</span>
+                                    <div>
+                                        <h4 class="font-bold tracking-widest uppercase mb-1 md:mb-2 text-premium-black text-[10px] md:text-sm">Perfil</h4>
+                                        <p class="font-light text-gray-600 text-sm md:text-lg leading-relaxed">É um programa de treinos personalizado, desenvolvido especialmente para clientes a partir dos 60 anos.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4 md:gap-6 items-start">
+                                    <span class="w-8 h-8 md:w-12 md:h-12 rounded-full bg-white shadow-sm flex items-center justify-center font-bold text-premium-black shrink-0 text-[10px] md:text-sm">02</span>
+                                    <div>
+                                        <h4 class="font-bold tracking-widest uppercase mb-1 md:mb-2 text-premium-black text-[10px] md:text-sm">Acompanhamento</h4>
+                                        <p class="font-light text-gray-600 text-sm md:text-lg leading-relaxed">Oferecemos treinos adaptados para fortalecer os músculos, melhorar a coordenação motora e a resistência.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: HIPERTROFIA -->
+                    <div id="hipertrofia" class="program-content grid animate-fade-in grid-cols-1 lg:grid-cols-2 gap-6 md:gap-16 lg:gap-24 items-center">
+                        <div class="h-[250px] min-[400px]:h-[300px] lg:h-[600px] rounded-[1.5rem] lg:rounded-[3rem] overflow-hidden shadow-xl relative w-full">
+                            <img src="https://assets-bio-digital-cms.bioritmo.com.br/PROGRAMAS_HIPERTRO_mobile_974x453px_0682ba0f87.webp" alt="Hipertrofia" class="w-full h-full object-cover object-center">
+                            <div class="absolute bottom-0 left-0 w-full p-6 md:p-10 bg-gradient-to-t from-black/80 to-transparent">
+                                <h3 class="font-display font-bold text-2xl md:text-4xl lg:text-5xl text-white">HIPERTROFIA</h3>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-base md:text-xl lg:text-2xl text-gray-500 font-light mb-6 md:mb-12 leading-relaxed">
+                                Conheça nosso método inovador focado em ganho de massa e definição muscular.
+                            </p>
+                            <div class="space-y-5 md:space-y-10">
+                                <div class="flex gap-4 md:gap-6 items-start">
+                                    <span class="w-8 h-8 md:w-12 md:h-12 rounded-full bg-white shadow-sm flex items-center justify-center font-bold text-premium-black shrink-0 text-[10px] md:text-sm">01</span>
+                                    <div>
+                                        <h4 class="font-bold tracking-widest uppercase mb-1 md:mb-2 text-premium-black text-[10px] md:text-sm">Perfil</h4>
+                                        <p class="font-light text-gray-600 text-sm md:text-lg leading-relaxed">Escolha entre treinos rápidos e intensos ou sessões volumosas para se adequar à sua rotina.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4 md:gap-6 items-start">
+                                    <span class="w-8 h-8 md:w-12 md:h-12 rounded-full bg-white shadow-sm flex items-center justify-center font-bold text-premium-black shrink-0 text-[10px] md:text-sm">02</span>
+                                    <div>
+                                        <h4 class="font-bold tracking-widest uppercase mb-1 md:mb-2 text-premium-black text-[10px] md:text-sm">Acompanhamento</h4>
+                                        <p class="font-light text-gray-600 text-sm md:text-lg leading-relaxed">Tenha um acompanhamento completo dos nossos professores com um treino focado em hipertrofia e força.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 3: EMAGRECIMENTO -->
+                    <div id="emagrecimento" class="program-content hidden grid-cols-1 lg:grid-cols-2 gap-6 md:gap-16 lg:gap-24 items-center">
+                        <div class="h-[250px] min-[400px]:h-[300px] lg:h-[600px] rounded-[1.5rem] lg:rounded-[3rem] overflow-hidden shadow-xl relative w-full">
+                            <img src="https://assets-bio-digital-cms.bioritmo.com.br/PROGRAMAS_EMAGRE_mobile_974x453px_5133e21740.webp" alt="Emagrecimento" class="w-full h-full object-cover object-[15%_center]">
+                            <div class="absolute bottom-0 left-0 w-full p-6 md:p-10 bg-gradient-to-t from-black/80 to-transparent">
+                                <h3 class="font-display font-bold text-2xl md:text-4xl lg:text-5xl text-white">EMAGRECIMENTO</h3>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-base md:text-xl lg:text-2xl text-gray-500 font-light mb-6 md:mb-12 leading-relaxed">
+                                Com metodologia focada em estímulos de força e cardiorrespiratórios, nosso programa te impulsiona a transformar seu corpo.
+                            </p>
+                            <div class="space-y-5 md:space-y-10">
+                                <div class="flex gap-4 md:gap-6 items-start">
+                                    <span class="w-8 h-8 md:w-12 md:h-12 rounded-full bg-white shadow-sm flex items-center justify-center font-bold text-premium-black shrink-0 text-[10px] md:text-sm">01</span>
+                                    <div>
+                                        <h4 class="font-bold tracking-widest uppercase mb-1 md:mb-2 text-premium-black text-[10px] md:text-sm">Perfil</h4>
+                                        <p class="font-light text-gray-600 text-sm md:text-lg leading-relaxed">É a escolha perfeita para aqueles que desejam alcançar resultados duradouros e transformar seus corpos.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4 md:gap-6 items-start">
+                                    <span class="w-8 h-8 md:w-12 md:h-12 rounded-full bg-white shadow-sm flex items-center justify-center font-bold text-premium-black shrink-0 text-[10px] md:text-sm">02</span>
+                                    <div>
+                                        <h4 class="font-bold tracking-widest uppercase mb-1 md:mb-2 text-premium-black text-[10px] md:text-sm">Acompanhamento</h4>
+                                        <p class="font-light text-gray-600 text-sm md:text-lg leading-relaxed">Com nosso acompanhamento exclusivo você melhora sua saúde em geral e desfruta de uma experiência personalizada.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="text-center mt-10 md:mt-20 w-full" data-aos="fade-up">
+                    <a href="#formulario" class="inline-block w-full md:w-auto bg-premium-black text-white font-bold text-xs tracking-widest uppercase px-8 py-4 md:px-12 md:py-5 rounded-full hover:scale-105 transition-transform duration-300 shadow-xl">
+                        Descobrir o programa ideal para mim
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5ª Seção - Treinos (Sem filtros e Videos Primeiro) -->
+        <section id="treinos" class="py-10 md:py-24 bg-white">
+            <div class="max-w-[1600px] mx-auto px-4 md:px-8 flex flex-col items-center">
+                <h2 class="font-display font-bold text-2xl md:text-5xl lg:text-6xl tracking-tightest mb-8 md:mb-16 text-center w-full" data-aos="fade-up">Treinos de acordo com seus objetivos</h2>
+
+                <!-- Carousel de Flip Cards com Setas (Cards otimizados mobile/desktop) -->
+                <div class="relative px-0 md:px-16 w-full" data-aos="fade-up" data-aos-delay="200">
+                    <div class="swiper flip-swiper !pb-12 !px-2">
+                        <div class="swiper-wrapper" id="workouts-wrapper">
+                            <!-- Renderizado via JS -->
+                        </div>
+                        <div class="swiper-pagination !bottom-0"></div>
+                    </div>
+                    
+                    <!-- Navigation Arrows for Workouts -->
+                    <div id="workouts-prev" class="swiper-button-prev !left-2 hidden md:flex"></div>
+                    <div id="workouts-next" class="swiper-button-next !right-2 hidden md:flex"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6ª Seção - Unidades Piracicaba e UX Text -->
+        <section class="py-10 md:py-24 bg-[#f5f5f7] overflow-hidden rounded-b-[2rem] md:rounded-b-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] relative z-20">
+            <div class="max-w-[1400px] mx-auto px-4 md:px-6">
+                
+                <!-- Headline de Impacto - Revelação por Scroll com tamanhos otimizados sem cortes -->
+                <div class="text-center max-w-5xl mx-auto mb-12 md:mb-24">
+                    <h2 class="font-display font-black text-[6.5vw] max-[380px]:text-[6vw] md:text-[5.5vw] lg:text-[6.5rem] tracking-tightest mb-4 md:mb-12 leading-[1.1]">
+                        <span class="block overflow-hidden py-4 -my-4 px-2 -mx-2"><span class="block text-gray-300 whitespace-nowrap scroll-reveal-line" style="transform: translateY(100%);">Sem deslocamentos.</span></span>
+                        <span class="block overflow-hidden py-4 -my-4 px-2 -mx-2"><span class="block text-gray-400 whitespace-nowrap scroll-reveal-line" style="transform: translateY(100%);">Sem excessos.</span></span>
+                        <span class="block overflow-hidden py-4 -my-4 px-2 -mx-2"><span class="block text-premium-black whitespace-nowrap scroll-reveal-line" style="transform: translateY(100%);">Sem ruído.</span></span>
+                    </h2>
+                    <p class="text-base sm:text-xl md:text-3xl lg:text-4xl font-light text-gray-500 mt-6 md:mt-16 leading-relaxed" data-aos="fade-up">
+                        Um único ambiente. <span class="text-premium-black font-medium">Múltiplas experiências.</span><br>Um padrão elevado em cada detalhe.
+                    </p>
+                </div>
+
+                <div class="border-t border-gray-300 pt-10 md:pt-24">
+                    <h3 class="text-[10px] md:text-sm font-bold tracking-widest text-premium-black uppercase text-center mb-8 md:mb-20 w-full" data-aos="fade-up">Conheça mais da unidade</h3>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 mb-10 md:mb-20">
+                        <!-- Pão de Açúcar -->
+                        <div class="tilt-card bg-white rounded-[1.5rem] md:rounded-[3rem] p-6 md:p-10 lg:p-16 flex flex-col justify-between group shadow-xl" data-aos="fade-right">
+                            <div class="mb-6 md:mb-12">
+                                <h4 class="font-display font-bold text-2xl md:text-4xl mb-2 md:mb-4">Unidade Pão de Açúcar</h4>
+                                <p class="text-gray-500 font-light text-sm md:text-lg flex items-start gap-2 md:gap-4">
+                                    <i data-lucide="map-pin" class="w-4 h-4 md:w-6 md:h-6 flex-shrink-0 mt-1 text-premium-black"></i>
+                                    Rua Visconde do Rio Branco, 583<br/>Bairro Alto, Centro (Tupi)<br/>Piracicaba - SP, 13419-115
+                                </p>
+                            </div>
+                            <div class="w-full h-48 min-[400px]:h-56 md:h-80 rounded-xl md:rounded-[2rem] overflow-hidden bg-gray-200 relative">
+                                <img src="https://assets-bio-digital-cms.bioritmo.com.br/BMSC_5369_b04195ee11.JPG" alt="Pão de Açúcar" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out">
+                            </div>
+                            <div class="mt-6 md:mt-10 flex flex-wrap gap-2 md:gap-3">
+                                <span class="px-3 py-1.5 md:px-5 md:py-3 bg-[#f5f5f7] rounded-full text-[9px] md:text-xs font-bold tracking-wider uppercase text-gray-600">Emagrecimento</span>
+                                <span class="px-3 py-1.5 md:px-5 md:py-3 bg-[#f5f5f7] rounded-full text-[9px] md:text-xs font-bold tracking-wider uppercase text-gray-600">Estacionamento</span>
+                                <span class="px-3 py-1.5 md:px-5 md:py-3 bg-[#f5f5f7] rounded-full text-[9px] md:text-xs font-bold tracking-wider uppercase text-gray-600">Hipertrofia</span>
+                                <span class="px-3 py-1.5 md:px-5 md:py-3 bg-[#f5f5f7] rounded-full text-[9px] md:text-xs font-bold tracking-wider uppercase text-gray-600">Race</span>
+                                <span class="px-3 py-1.5 md:px-5 md:py-3 bg-[#f5f5f7] rounded-full text-[9px] md:text-xs font-bold tracking-wider uppercase text-gray-600">Torq</span>
+                                <span class="px-3 py-1.5 md:px-5 md:py-3 bg-[#f5f5f7] rounded-full text-[9px] md:text-xs font-bold tracking-wider uppercase text-gray-600">Ginástica</span>
+                            </div>
+                        </div>
+
+                        <!-- Carlos Botelho -->
+                        <div class="tilt-card bg-white rounded-[1.5rem] md:rounded-[3rem] p-6 md:p-10 lg:p-16 flex flex-col justify-between group shadow-xl" data-aos="fade-left">
+                            <div class="mb-6 md:mb-12">
+                                <h4 class="font-display font-bold text-2xl md:text-4xl mb-2 md:mb-4">Unidade Carlos Botelho</h4>
+                                <p class="text-gray-500 font-light text-sm md:text-lg flex items-start gap-2 md:gap-4">
+                                    <i data-lucide="map-pin" class="w-4 h-4 md:w-6 md:h-6 flex-shrink-0 mt-1 text-premium-black"></i>
+                                    Avenida Carlos Botelho, 287<br/>São Dimas<br/>Piracicaba - SP, 13416-140
+                                </p>
+                            </div>
+                            <div class="w-full h-48 min-[400px]:h-56 md:h-80 rounded-xl md:rounded-[2rem] overflow-hidden bg-gray-200 relative">
+                                <img src="https://assets-bio-digital-cms.bioritmo.com.br/1_10f704a29b.png" alt="Carlos Botelho" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out">
+                            </div>
+                            <div class="mt-6 md:mt-10 flex flex-wrap gap-2 md:gap-3">
+                                <span class="px-3 py-1.5 md:px-5 md:py-3 bg-[#f5f5f7] rounded-full text-[9px] md:text-xs font-bold tracking-wider uppercase text-gray-600">Emagrecimento</span>
+                                <span class="px-3 py-1.5 md:px-5 md:py-3 bg-[#f5f5f7] rounded-full text-[9px] md:text-xs font-bold tracking-wider uppercase text-gray-600">Estacionamento</span>
+                                <span class="px-3 py-1.5 md:px-5 md:py-3 bg-[#f5f5f7] rounded-full text-[9px] md:text-xs font-bold tracking-wider uppercase text-gray-600">Hipertrofia</span>
+                                <span class="px-3 py-1.5 md:px-5 md:py-3 bg-[#f5f5f7] rounded-full text-[9px] md:text-xs font-bold tracking-wider uppercase text-gray-600">Vidya</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center w-full flex flex-col items-center px-4" data-aos="fade-up">
+                        <h3 class="font-display font-bold text-xl sm:text-3xl md:text-5xl mb-6 md:mb-8 text-center">Você simplifica a rotina.<br/>E eleva o resultado.</h3>
+                        <a href="#formulario" class="inline-block w-full md:w-auto bg-premium-black text-white font-bold text-xs tracking-widest uppercase px-8 py-4 md:px-14 md:py-6 rounded-full hover:scale-105 transition-transform duration-300 shadow-[0_10px_40px_rgba(0,0,0,0.2)]">
+                            Solicitar Convite VIP
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div> <!-- Fim do Container Master -->
+
+    <!-- 7ª Seção - Formulário Final Elegante -->
+    <section id="formulario" class="py-16 md:py-24 bg-[#0a0a0a] text-white relative z-0">
+        <div class="max-w-4xl mx-auto px-4 md:px-6 flex flex-col items-center">
+            <div class="text-center mb-8 md:mb-16 w-full px-4" data-aos="fade-up">
+                <h2 class="font-display font-bold text-3xl min-[400px]:text-4xl md:text-6xl lg:text-7xl tracking-tightest mb-3 md:mb-6">Seu próximo passo.</h2>
+                <p class="text-sm md:text-2xl text-gray-400 font-light max-w-2xl mx-auto">Solicite seu Convite VIP e conheça pessoalmente o novo padrão de bem-estar em Piracicaba.</p>
+            </div>
+
+            <form class="space-y-4 md:space-y-8 w-full" onsubmit="event.preventDefault(); alert('Solicitação enviada com sucesso!');" data-aos="fade-up" data-aos-delay="200">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                    <div>
+                        <label class="block text-[10px] md:text-[11px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-2 md:mb-3 ml-2 text-left">Nome Completo</label>
+                        <input type="text" required class="w-full bg-[#1a1a1a] border border-white/10 focus:border-white focus:ring-0 rounded-xl md:rounded-[2rem] px-4 py-4 md:px-8 md:py-6 text-base md:text-xl text-white transition-colors outline-none placeholder-gray-600" placeholder="Seu nome">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] md:text-[11px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-2 md:mb-3 ml-2 text-left">WhatsApp</label>
+                        <input type="tel" required class="w-full bg-[#1a1a1a] border border-white/10 focus:border-white focus:ring-0 rounded-xl md:rounded-[2rem] px-4 py-4 md:px-8 md:py-6 text-base md:text-xl text-white transition-colors outline-none placeholder-gray-600" placeholder="(19) 90000-0000">
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                    <div>
+                        <label class="block text-[10px] md:text-[11px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-2 md:mb-3 ml-2 text-left">E-mail</label>
+                        <input type="email" required class="w-full bg-[#1a1a1a] border border-white/10 focus:border-white focus:ring-0 rounded-xl md:rounded-[2rem] px-4 py-4 md:px-8 md:py-6 text-base md:text-xl text-white transition-colors outline-none placeholder-gray-600" placeholder="seu@email.com">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] md:text-[11px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-2 md:mb-3 ml-2 text-left">Unidade de interesse</label>
+                        <div class="relative">
+                            <select required class="w-full bg-[#1a1a1a] border border-white/10 focus:border-white focus:ring-0 rounded-xl md:rounded-[2rem] px-4 py-4 md:px-8 md:py-6 text-base md:text-xl text-white transition-colors outline-none placeholder-gray-600 appearance-none cursor-pointer">
+                                <option value="" disabled selected>Selecione a unidade</option>
+                                <option value="pao-de-acucar">Unidade Pão de Açúcar</option>
+                                <option value="carlos-botelho">Unidade Carlos Botelho</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 md:px-8 text-gray-400">
+                                <i data-lucide="chevron-down" class="w-5 h-5 md:w-6 md:h-6"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 md:pt-12 w-full flex flex-col items-center">
+                    <label class="block text-lg md:text-2xl font-display font-bold text-white mb-4 md:mb-10 text-center w-full">Qual seu principal objetivo hoje?</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-6 w-full">
+                        <div class="relative">
+                            <input type="radio" name="objetivo" id="obj1" class="goal-radio sr-only" checked>
+                            <label for="obj1" class="block w-full border border-white/20 rounded-xl md:rounded-[2rem] p-4 md:p-8 cursor-pointer text-center font-medium text-gray-400 text-sm md:text-lg transition-all hover:bg-white/5">
+                                Aliviar o estresse da rotina
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="objetivo" id="obj2" class="goal-radio sr-only">
+                            <label for="obj2" class="block w-full border border-white/20 rounded-xl md:rounded-[2rem] p-4 md:p-8 cursor-pointer text-center font-medium text-gray-400 text-sm md:text-lg transition-all hover:bg-white/5">
+                                Voltar a ter fôlego e energia
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="objetivo" id="obj3" class="goal-radio sr-only">
+                            <label for="obj3" class="block w-full border border-white/20 rounded-xl md:rounded-[2rem] p-4 md:p-8 cursor-pointer text-center font-medium text-gray-400 text-sm md:text-lg transition-all hover:bg-white/5">
+                                Emagrecer acompanhado(a)
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="radio" name="objetivo" id="obj4" class="goal-radio sr-only">
+                            <label for="obj4" class="block w-full border border-white/20 rounded-xl md:rounded-[2rem] p-4 md:p-8 cursor-pointer text-center font-medium text-gray-400 text-sm md:text-lg transition-all hover:bg-white/5">
+                                Melhorar a saúde geral
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-6 md:pt-16 text-center w-full">
+                    <button type="submit" class="w-full sm:w-auto bg-white text-premium-black font-bold uppercase tracking-[0.1em] text-xs md:text-sm px-8 py-4 md:px-16 md:py-7 rounded-full hover:scale-105 transition-transform duration-300 shadow-[0_0_40px_rgba(255,255,255,0.15)]">
+                        Quero agendar meu Tour VIP
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer Simples -->
+    <footer class="bg-[#050505] text-gray-600 py-10 md:py-16 px-6 text-center text-[10px] md:text-sm relative z-0 border-t border-white/5">
+        <p>SMARTFIT ESCOLA DE GINÁSTICA E DANÇA S.A - CNPJ: 07.594.978/0001-78</p>
+        <p class="mt-2">Copyright © 2026 Academia Bio Ritmo</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Init AOS Animation
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        });
+
+        // Init Lucide Icons
+        lucide.createIcons();
+
+        // Parallax Customizado: Revelação de Texto de Baixo para Cima (Sem mudança de opacidade)
+        document.addEventListener("DOMContentLoaded", () => {
+            const revealLines = document.querySelectorAll('.scroll-reveal-line');
+            
+            const handleReveal = () => {
+                const windowHeight = window.innerHeight;
+                
+                revealLines.forEach((el) => {
+                    const parentRect = el.parentElement.getBoundingClientRect();
+                    
+                    // Dispara a animação quando o topo da máscara chega em 90% da tela
+                    const triggerPoint = windowHeight * 0.90;
+                    
+                    if (parentRect.top < triggerPoint) {
+                        // Calcula o progresso ao longo de 120 pixels de scroll para um efeito contínuo
+                        let progress = (triggerPoint - parentRect.top) / 120;
+                        progress = Math.min(Math.max(progress, 0), 1);
+                        
+                        // Desliza do 100% (escondido para baixo) até o 0% (sua posição natural)
+                        let yPos = 100 - (progress * 100);
+                        el.style.transform = `translateY(${yPos}%)`;
+                    } else {
+                        // Reseta a posição se o usuário voltar o scroll para cima antes da frase
+                        el.style.transform = `translateY(100%)`;
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', handleReveal);
+            handleReveal(); // Verificação inicial ao carregar a página
+
+            // Efeito 3D (Tilt) Dinâmico nos Cards das Unidades
+            const tiltCards = document.querySelectorAll('.tilt-card');
+            tiltCards.forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    // Ajuste o "5" para aumentar ou diminuir a inclinação 3D
+                    const rotateX = ((y - centerY) / centerY) * -5; 
+                    const rotateY = ((x - centerX) / centerX) * 5;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    card.style.transition = 'none';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                    card.style.transition = 'transform 0.5s ease-out';
+                });
+                
+                card.addEventListener('mouseenter', () => {
+                    card.style.transition = 'transform 0.1s ease-out';
+                });
+            });
+        });
+
+        // 1. Swiper de Studios (Loop Infinito)
+        new Swiper('.studios-swiper', {
+            slidesPerView: 'auto',
+            spaceBetween: 16,
+            loop: true,
+            speed: 1000,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                768: { spaceBetween: 40 }
+            }
+        });
+
+        // 2. Lógica das Tabs de Programas
+        const tabBtns = document.querySelectorAll('.program-tab-btn');
+        const tabContents = document.querySelectorAll('.program-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Reset buttons
+                tabBtns.forEach(b => {
+                    b.classList.remove('bg-premium-black', 'text-white', 'border-premium-black', 'shadow-xl');
+                    b.classList.add('bg-white', 'text-gray-500', 'border-gray-300');
+                });
+                
+                // Hide contents
+                tabContents.forEach(c => {
+                    c.classList.add('hidden');
+                    c.classList.remove('grid', 'animate-fade-in');
+                });
+                
+                // Set active button
+                btn.classList.remove('bg-white', 'text-gray-500', 'border-gray-300');
+                btn.classList.add('bg-premium-black', 'text-white', 'border-premium-black', 'shadow-xl');
+                
+                // Show active content
+                const targetId = btn.getAttribute('data-target');
+                const targetContent = document.getElementById(targetId);
+                targetContent.classList.remove('hidden');
+                targetContent.classList.add('grid', 'animate-fade-in');
+            });
+        });
+
+        // 3. Base de Dados de Treinos e Renderização Unificada (Vídeos Primeiro)
+        const workoutsData = [
+            // Vídeos primeiro
+            { title: "TORQ", cat: "cardiovasculares", type: "video", media: "https://assets-bio-digital-cms.bioritmo.com.br/TORQ_VERT_694276bf04.mp4", desc: "Prepare-se para fortalecer os músculos e sentir a endorfina fluir em cada pedalada. Foco na queima calórica." },
+            { title: "RACE", cat: "cardiovasculares", type: "video", media: "https://assets-bio-digital-cms.bioritmo.com.br/RACE_VERT_82c0da74a6.mp4", desc: "Combina tiros na esteira e exercícios funcionais em um treino completo de 45 minutos." },
+            { title: "TONUS", cat: "localizadas", type: "video", media: "https://assets-bio-digital-cms.bioritmo.com.br/TONUS_VERT_1919edde1b.mp4", desc: "Treino de 50 minutos que conecta exercícios de força, definição e resistência muscular." },
+            
+            // Imagens estáticas em seguida
+            { title: "BODYJAM™", cat: "cardiovasculares", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/BODYJAM_1_cd1ac177c8.webp", desc: "Treino cardiovascular de alta energia, inspirado em movimentos de dança do mundo inteiro." },
+            { title: "FIT DANCE", cat: "cardiovasculares", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/FITDANCE_830927902c.webp", desc: "Aprenda coreografias em uma atividade aeróbica que estimula diversos músculos e acelera o metabolismo." },
+            { title: "RITMOS", cat: "cardiovasculares", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/RITMOS_f43bb58b49.webp", desc: "Aprenda movimentos de dança fitness, ao som de vários estilos musicais com coreografias exclusivas." },
+            { title: "LES MILLS DANCE", cat: "cardiovasculares", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/LESSMILLS_DANCE_1_a237f025ca.webp", desc: "Aula de dança fitness criada por dançarinos. Alta energia e alto gasto calórico." },
+            { title: "ZUMBA", cat: "cardiovasculares", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/ZUMBA_a77c0eea49.webp", desc: "Mistura de fitness-dança que incorpora música latina com movimentos dinâmicos." },
+            { title: "BODYATTACK", cat: "cardiovasculares", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/BODYATTACK_03bc1842d1.webp", desc: "Combine movimentos aeróbicos, exercícios de força e estabilização para aumentar resistência." },
+            { title: "BIO MOBILIDADE", cat: "bodymind", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/MOBILIDADE_1_1ec02ee8a7.webp", desc: "Treino de 15 min com alongamentos dinâmicos e mobilizações." },
+            { title: "BIO PILATES", cat: "bodymind", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/BIO_PILATES_1_b99a3e979b.webp", desc: "Baseada no método Stott Pilates, mescla exercícios de flexibilidade e força no Core." },
+            { title: "YOGA", cat: "bodymind", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/YOGA_1_f0b5c0e4aa.webp", desc: "Descubra o poder da respiração. Trabalhe corpo e mente, enquanto elimina toxinas." },
+            { title: "BIO POSTURAL", cat: "bodymind", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/BIO_POSTURAL_ce3ad224f5.webp", desc: "Exercícios de alongamento que auxiliam na correção postural e relaxamento muscular." },
+            { title: "FLOW", cat: "bodymind", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/FLOW_ec9d34a261.webp", desc: "Transpire e transcenda em um treino de alongamento, flexibilidade e mobilidade." },
+            { title: "LM CORE", cat: "localizadas", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/LM_CORE_f2a48021de.webp", desc: "Treino rápido e dinâmico focado na construção de um corpo definido." },
+            { title: "BODYPUMP™", cat: "localizadas", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/BODYPUMP_ca075dcfb5.webp", desc: "Aumente sua força usando pesos leves e moderados em combinações rápidas." },
+            { title: "CORE", cat: "localizadas", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/CORE_3cd52ccf01.webp", desc: "Fortaleça os músculos do core (abdômen e costas). Melhore sua postura." },
+            { title: "STRONG FULL BODY", cat: "localizadas", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/STRONG_FULLBODY_690812c159.webp", desc: "Desenvolva força, resistência e condicionamento em aula de 45 minutos." },
+            { title: "BODYCOMBAT™", cat: "lutas", type: "image", media: "https://assets-bio-digital-cms.bioritmo.com.br/BODYCOMBAT_d_0dd356fcc5.webp", desc: "Artes Marciais (Karatê, Boxe, Muay Thai). Crie resistência cardiovascular extrema." }
+        ];
+
+        const wrapper = document.getElementById('workouts-wrapper');
+        let flipSwiper;
+
+        function renderCards() {
+            wrapper.innerHTML = '';
+            
+            // Renderiza todos os treinos ordenados: vídeos primeiro e sem uso de filtros
+            workoutsData.forEach(w => {
+                const tag = `#${w.cat}`;
+                
+                let mediaHtml = '';
+                if(w.type === 'video') {
+                    mediaHtml = `<video autoplay loop muted playsinline class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"><source src="${w.media}" type="video/mp4"></video>`;
+                } else {
+                    mediaHtml = `<img src="${w.media}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">`;
+                }
+
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide w-[80%] max-w-[320px] sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]';
+                slide.innerHTML = `
+                    <div class="flip-card w-full group">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front rounded-xl md:rounded-[2.5rem] overflow-hidden bg-gray-200">
+                                ${mediaHtml}
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
+                                <div class="absolute bottom-0 left-0 w-full p-6 md:p-8 z-10 text-left">
+                                    <h3 class="font-display font-bold text-white text-2xl md:text-3xl mb-1 drop-shadow-md">${w.title}</h3>
+                                    <span class="text-[10px] md:text-[11px] font-bold tracking-widest text-premium-accent uppercase drop-shadow-md">${tag}</span>
+                                </div>
+                            </div>
+                            <div class="flip-card-back rounded-xl md:rounded-[2.5rem]">
+                                <h3 class="font-display font-bold text-xl md:text-3xl mb-3 md:mb-5 text-white text-left">${w.title}</h3>
+                                <p class="text-sm md:text-base text-gray-400 font-light leading-relaxed text-left">${w.desc}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                wrapper.appendChild(slide);
+            });
+
+            if (flipSwiper) flipSwiper.destroy(true, true);
+            
+            flipSwiper = new Swiper('.flip-swiper', {
+                slidesPerView: 'auto',
+                spaceBetween: 16,
+                speed: 800,
+                navigation: {
+                    nextEl: '#workouts-next',
+                    prevEl: '#workouts-prev',
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                breakpoints: {
+                    320: { slidesPerView: 1, spaceBetween: 16 },
+                    640: { slidesPerView: 2, spaceBetween: 20 },
+                    768: { slidesPerView: 3, spaceBetween: 24 },
+                    1280: { slidesPerView: 4, spaceBetween: 24 }
+                }
+            });
+        }
+
+        renderCards();
+
+    </script>
+</body>
+</html>
